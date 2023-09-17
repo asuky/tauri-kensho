@@ -1,38 +1,38 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/tauri";
-import { open } from "@tauri-apps/api/dialog";
-import { emit } from "@tauri-apps/api/event";
-import "./App.css";
+import Layout from "./components/Layout";
+import Container from "./components/elms/Container";
+import Grid from "./components/elms/Grid";
 
-function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-  const [filepath, setFilepath] = useState("");
-  const [memValue, setMemValue] = useState(null);
+import Greet from "./components/Greet";
+import FileOpen from "./components/FileOpen";
+import EmitMessage from "./components/EmitMessage";
+import SysInfo from "./components/SysInfo";
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
-  }
-
-  async function handleOpenButtonClick(e: React.MouseEvent) {
-    open().then(files => console.log(files))
-  }
-
-  async function handleOnEmitMessage(e: React.MouseEvent) {
-    emit("front-to-back", "hello from front");
-  }
-
-  async function beep() {
-    await invoke("beep");
-  }
-
-  async function getmem() {
-    setMemValue(await invoke("getMem"));
-  }
-
+// TODO: union: obj | func の様子、後で書き方調べる
+// https://mui.com/material-ui/customization/theming/
+export default function App({ setTheme }: any) {
   return (
+    <Layout>
+      <Container sx={{ mt: 3 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+            <Greet />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+            <FileOpen />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+            <EmitMessage />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+            <SysInfo />
+          </Grid>
+        </Grid>
+      </Container>
+    </Layout>
+  );
+}
+
+/*
     <div className="container">
       <h1>Welcome to Tauri!</h1>
 
@@ -76,7 +76,4 @@ function App() {
       <button onClick={getmem}>Get Mem</button>
       <p>Mem Value: {memValue}</p>
     </div>
-  );
-}
-
-export default App;
+*/

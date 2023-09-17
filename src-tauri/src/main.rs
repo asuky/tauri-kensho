@@ -15,7 +15,7 @@ fn main() {
             });
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![greet, beep, getMem])
+        .invoke_handler(tauri::generate_handler![greet, beep, get_sys_info])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
